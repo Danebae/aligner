@@ -36,7 +36,7 @@ Suppose you have a text file named `example.txt` with the following content:
 ```javascript
 // This comment has no code so it will be unchanged
     // This comment has no code either; it will be unchanged as well
-someFunction() {
+function someFunction() {
     let a = 20; // This is a line comment
     return a;         // This is another line comment
 }
@@ -47,7 +47,7 @@ If you specify "//" as the comment string and 40 as the alignment position, the 
 ```javascript
 // This comment has no code so it will be unchanged
     // This comment has no code either; it will be unchanged as well
-someFunction() {
+function someFunction() {
     let a = 20;                        // This is a line comment
     return a;                          // This is another line comment
 }
