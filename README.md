@@ -31,7 +31,7 @@ This standalone HTML tool aligns line comments in text (code) files. It's a simp
 
 ## Example
 
-Suppose you have a text file named `example.txt` with the following content:
+Suppose you have a file with the following content:
 
 ```javascript
 // This comment has no code so it will be unchanged
@@ -42,7 +42,7 @@ function someFunction() {
 }
 ```
 
-If you specify "//" as the comment string and 40 as the alignment position, the output file after processing example.txt would contain:
+If you specify "//" as the comment string and 40 as the alignment position, the output file after processing would contain:
 
 ```javascript
 // This comment has no code so it will be unchanged
