@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code comment aligner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            margin-top: 50px;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 500px;
+            /* Máximo ancho de la tabla */
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input,
+        button {
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            width: 100px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Line Comments Aligner</h1>
+    <p>This standalone HTML aligns line comments in text (code) files:</p>
+    <ul>
+        <li>Comments prefixed by a chosen string will be aligned to a specified position.</li>
+        <li>Alignment is done by adding or removing spaces before comments.</li>
+        <li>Comments at the beginning of lines remain unchanged.</li>
+        <li>Original files are not modified; modified files are downloaded to your download folder.</li>
+    </ul>
+    <table>
+        <tr>
+            <td><label for="commentString">Comment String:</label></td>
+            <td><input type="text" id="commentString" value="//"></td>
+        </tr>
+        <tr>
+            <td><label for="alignmentPosition">Alignment Position for Comments:</label></td>
+            <td><input type="number" id="alignmentPosition" value="101" min="1" step="1"></td>
+        </tr>
+        <tr>
+        <tr>
+            <td><input type="file" id="fileInput" multiple style="width:auto;"></td>
+            <td><button onclick="processFiles()">Process Files</button></td>
+        </tr>
+        </tr>
+    </table>
+
+    <script>
+        function processFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+
+            if (files.length === 0) {
+                alert('Please select at least one file.');
+                return;
+            }
+
+            let commentString = document.getElementById('commentString').value;
+            let alignmentPosition = parseInt(document.getElementById('alignmentPosition').value, 10);
+
+            if (!commentString) commentString = '//';
+
+            if (isNaN(alignmentPosition)) alignmentPosition = 101;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    const fileContent = event.target.result;
+                    const processedContent = processFileContent(fileContent, commentString, alignmentPosition);
+                    const processedBlob = new Blob([processedContent], { type: 'text/plain' });
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = URL.createObjectURL(processedBlob);
+                    downloadLink.download = file.name;
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    downloadLink.remove();
+                };
+
+                reader.readAsText(file);
+            });
+        }
+
+        function processFileContent(fileContent, commentString, alignmentPosition) {
+            return fileContent
+                .split('\n')
+                .map(line => {
+                    if (line.trim().startsWith(commentString)) {
+                        return line;
+                    } else if (line.includes(commentString)) {
+                        let indexOfComment = line.indexOf(commentString);
+                        while (indexOfComment > alignmentPosition && line[indexOfComment - 1] === ' ' && line[indexOfComment - 2] === ' ') {
+                            line = line.substring(0, indexOfComment - 1) + line.substring(indexOfComment);
+                            indexOfComment = line.indexOf(commentString);
+                        }
+                        if (indexOfComment < alignmentPosition) {
+                            const spacesToAdd = ' '.repeat(alignmentPosition - indexOfComment);
+                            return line.substring(0, indexOfComment) + spacesToAdd + line.substring(indexOfComment);
+                        }
+                    }
+                    return line;
+                })
+                .join('\n');
+        }
+    </script>
+</body>
+
+</html>
