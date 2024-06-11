@@ -2,9 +2,11 @@
 
 This standalone HTML tool aligns line comments in text (code) files. It's a simple utility that can be run locally in your web browser.
 
+---
+
 ## How to Use
 
-1. **Open the HTML File**: Download the HTML file and open it in your web browser or [run directly](https://danebae.github.io/aligner) from github.
+1. **Open the HTML File**: Download the HTML file and open it in your web browser or [run it directly](https://danebae.github.io/aligner) from GitHub.
 
 2. **Specify Parameters**: 
    - Enter the comment string you want to use (e.g., "//", "#", etc.) in the "Comment String" field.
@@ -16,34 +18,37 @@ This standalone HTML tool aligns line comments in text (code) files. It's a simp
 
 5. **Download Modified Files**: After processing, the modified files will be automatically downloaded to your default download folder.
 
+---
+
 ## Expected Output
 
 - Comments prefixed by the chosen string will be aligned to the specified position.
 - Alignment will be achieved by adding or removing spaces before comments.
-- Comments at the beginning of lines will remain unchanged.
+- Comments in lines without code will remain unchanged.
 - Original files will not be modified; modified files will be downloaded to your download folder.
+
+---
 
 ## Example
 
 Suppose you have a text file named `example.txt` with the following content:
 
 ```javascript
-// This comment is at the begining so it will be unchanged
+// This comment has no code so it will be unchanged
+    // This comment has no code either; it will be unchanged as well
 someFunction() {
     let a = 20; // This is a line comment
     return a;         // This is another line comment
 }
 ```
 
----
-
-If you specify "//" as the comment string and 40 as the alignment position, the output file after processing `example.txt` would contain:
+If you specify "//" as the comment string and 40 as the alignment position, the output file after processing example.txt would contain:
 
 ```javascript
-// This comment is at the begining so it will be unchanged
+// This comment has no code so it will be unchanged
+    // This comment has no code either; it will be unchanged as well
 someFunction() {
     let a = 20;                        // This is a line comment
     return a;                          // This is another line comment
 }
 ```
----
